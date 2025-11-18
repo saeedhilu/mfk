@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView, useAnimationControls } from 'framer-motion'
+import { motion, useInView, useMotionValue } from 'framer-motion'
 import { useRef, useState, useEffect, useCallback } from 'react'
 
 interface Review {
@@ -75,11 +75,12 @@ export default function CustomerReviews() {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const carouselRef = useRef<HTMLDivElement>(null)
   const currentXRef = useRef(0)
+  const animationFrameRef = useRef<number | null>(null)
+  const lastTimestampRef = useRef<number | null>(null)
   const [isHovered, setIsHovered] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState(0)
-  const [currentX, setCurrentX] = useState(0)
-  const controls = useAnimationControls()
+  const x = useMotionValue(0)
 
   // Duplicate reviews 3 times for seamless infinite scroll
   const duplicatedReviews = [...reviews, ...reviews, ...reviews]
@@ -90,56 +91,62 @@ export default function CustomerReviews() {
   const oneSetWidth = reviews.length * (cardWidth + gap)
   const animationDistance = -oneSetWidth
 
-  const clampPosition = useCallback(
+  const wrapPosition = useCallback(
     (value: number) => {
-      if (animationDistance === 0) return 0
-      return Math.max(animationDistance, Math.min(0, value))
+      if (oneSetWidth === 0) return 0
+      const normalized = ((value % oneSetWidth) + oneSetWidth) % oneSetWidth
+      return normalized - oneSetWidth
     },
-    [animationDistance]
+    [oneSetWidth]
   )
 
   const updatePosition = useCallback(
     (value: number) => {
-      const clamped = clampPosition(value)
-      currentXRef.current = clamped
-      setCurrentX(clamped)
-      controls.set({ x: clamped })
+      const wrapped = wrapPosition(value)
+      currentXRef.current = wrapped
+      x.set(wrapped)
     },
-    [clampPosition, controls]
+    [wrapPosition, x]
   )
 
+  const cancelAnimation = useCallback(() => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current)
+      animationFrameRef.current = null
+    }
+    lastTimestampRef.current = null
+  }, [])
+
   useEffect(() => {
-    if (!isInView) {
-      controls.stop()
+    const AUTO_SCROLL_SPEED = 60 // pixels per second
+
+    if (!isInView || isHovered || isDragging) {
+      cancelAnimation()
       return
     }
 
-    if (isHovered || isDragging) {
-      controls.stop()
-      setCurrentX(currentXRef.current)
-    } else {
-      currentXRef.current = currentX
-      controls.start({
-        x: [currentXRef.current, currentXRef.current + animationDistance],
-        transition: {
-          x: {
-            repeat: Infinity,
-            repeatType: 'loop',
-            duration: 25,
-            ease: 'linear',
-          },
-        },
-        onUpdate: (latest) => {
-          currentXRef.current = latest as number
-        },
-      })
+    const step = (timestamp: number) => {
+      if (lastTimestampRef.current == null) {
+        lastTimestampRef.current = timestamp
+      }
+      const delta = timestamp - lastTimestampRef.current
+      lastTimestampRef.current = timestamp
+      const distance = (AUTO_SCROLL_SPEED * delta) / 1000
+      updatePosition(currentXRef.current - distance)
+      animationFrameRef.current = requestAnimationFrame(step)
     }
-  }, [isHovered, isDragging, isInView, currentX, controls, animationDistance])
+
+    animationFrameRef.current = requestAnimationFrame(step)
+
+    return () => {
+      cancelAnimation()
+    }
+  }, [isInView, isHovered, isDragging, updatePosition, cancelAnimation])
 
   // Handle mouse drag
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true)
-    controls.stop()
+    cancelAnimation()
     setDragStart(e.clientX - currentXRef.current)
   }
 
@@ -344,11 +351,11 @@ export default function CustomerReviews() {
 
           {/* Scrolling Container */}
           <motion.div
-            animate={controls}
             style={{
               display: 'flex',
               gap: `${gap}px`,
               width: 'max-content',
+              x,
             }}
           >
             {duplicatedReviews.map((review, index) => (
