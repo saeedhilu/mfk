@@ -45,7 +45,7 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="section-title">Contact Us</h2>
-          <p className="section-subtitle">Let's discuss how we can help with your export needs</p>
+          <p className="section-subtitle">Let&rsquo;s discuss how we can help with your export needs</p>
         </motion.div>
 
         <div

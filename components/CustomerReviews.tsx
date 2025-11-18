@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView, useAnimationControls } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 
 interface Review {
   id: string
@@ -74,6 +74,7 @@ export default function CustomerReviews() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const carouselRef = useRef<HTMLDivElement>(null)
+  const currentXRef = useRef(0)
   const [isHovered, setIsHovered] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState(0)
@@ -89,11 +90,37 @@ export default function CustomerReviews() {
   const oneSetWidth = reviews.length * (cardWidth + gap)
   const animationDistance = -oneSetWidth
 
-  // Start auto-scroll animation
+  const clampPosition = useCallback(
+    (value: number) => {
+      if (animationDistance === 0) return 0
+      return Math.max(animationDistance, Math.min(0, value))
+    },
+    [animationDistance]
+  )
+
+  const updatePosition = useCallback(
+    (value: number) => {
+      const clamped = clampPosition(value)
+      currentXRef.current = clamped
+      setCurrentX(clamped)
+      controls.set({ x: clamped })
+    },
+    [clampPosition, controls]
+  )
+
   useEffect(() => {
-    if (isInView && !isHovered && !isDragging) {
+    if (!isInView) {
+      controls.stop()
+      return
+    }
+
+    if (isHovered || isDragging) {
+      controls.stop()
+      setCurrentX(currentXRef.current)
+    } else {
+      currentXRef.current = currentX
       controls.start({
-        x: [currentX, currentX + animationDistance],
+        x: [currentXRef.current, currentXRef.current + animationDistance],
         transition: {
           x: {
             repeat: Infinity,
@@ -102,24 +129,8 @@ export default function CustomerReviews() {
             ease: 'linear',
           },
         },
-      })
-    }
-  }, [isInView])
-
-  // Handle pause/resume on hover
-  useEffect(() => {
-    if (isHovered || isDragging) {
-      controls.stop()
-    } else if (isInView) {
-      controls.start({
-        x: [currentX, currentX + animationDistance],
-        transition: {
-          x: {
-            repeat: Infinity,
-            repeatType: 'loop',
-            duration: 25,
-            ease: 'linear',
-          },
+        onUpdate: (latest) => {
+          currentXRef.current = latest as number
         },
       })
     }
@@ -128,16 +139,8 @@ export default function CustomerReviews() {
   // Handle mouse drag
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true)
-    setDragStart(e.clientX - currentX)
     controls.stop()
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging && carouselRef.current) {
-      const newX = e.clientX - dragStart
-      setCurrentX(newX)
-      controls.set({ x: newX })
-    }
+    setDragStart(e.clientX - currentXRef.current)
   }
 
   const handleMouseUp = () => {
@@ -149,9 +152,8 @@ export default function CustomerReviews() {
     if (isHovered) {
       e.preventDefault()
       const scrollAmount = e.deltaY > 0 ? 150 : -150
-      const newX = currentX + scrollAmount
-      setCurrentX(newX)
-      controls.set({ x: newX })
+      const newX = currentXRef.current + scrollAmount
+      updatePosition(newX)
     }
   }
 
@@ -160,8 +162,7 @@ export default function CustomerReviews() {
     if (isDragging) {
       const handleGlobalMouseMove = (e: MouseEvent) => {
         const newX = e.clientX - dragStart
-        setCurrentX(newX)
-        controls.set({ x: newX })
+        updatePosition(newX)
       }
 
       const handleGlobalMouseUp = () => {
@@ -176,7 +177,7 @@ export default function CustomerReviews() {
         window.removeEventListener('mouseup', handleGlobalMouseUp)
       }
     }
-  }, [isDragging, dragStart, controls])
+  }, [isDragging, dragStart, updatePosition])
 
   return (
     <section
@@ -394,7 +395,7 @@ export default function CustomerReviews() {
                     fontStyle: 'italic',
                   }}
                 >
-                  "{review.comment}"
+                  &ldquo;{review.comment}&rdquo;
                 </p>
 
                 {/* Customer Info */}
