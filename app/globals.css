@@ -165,4 +165,31 @@ section {
   .section-title {
     font-size: 2rem;
   }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 14px 32px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  section {
+    padding: 50px 16px;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .card {
+    padding: 24px;
+  }
 }

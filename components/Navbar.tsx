@@ -15,6 +15,26 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Close mobile menu when clicking outside or on a link
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (isMobileMenuOpen && !target.closest('nav')) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    if (isMobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside)
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMobileMenuOpen])
+
   const navLinks = [
     { href: '#home', label: 'Home' },
     { href: '#services', label: 'Services' },
@@ -23,6 +43,10 @@ export default function Navbar() {
     { href: '#location', label: 'Location' },
     { href: '#contact', label: 'Contact' },
   ]
+
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false)
+  }
 
   return (
     <motion.nav
@@ -41,26 +65,39 @@ export default function Navbar() {
         borderBottom: isScrolled ? '1px solid var(--border-light)' : 'none',
       }}
     >
-      <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.2rem 40px' }}>
+      <div
+        className="container"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '1.2rem 20px',
+        }}
+      >
         <motion.div
           whileHover={{ scale: 1.05 }}
           style={{
             fontFamily: 'Poppins, sans-serif',
-            fontSize: '1.5rem',
+            fontSize: 'clamp(1.2rem, 4vw, 1.5rem)',
             fontWeight: 700,
             color: 'var(--deep-green)',
+            zIndex: 1001,
           }}
         >
           MFK <span style={{ color: 'var(--primary-green)' }}>Exports</span>
         </motion.div>
 
+        {/* Desktop Navigation */}
         <ul
           style={{
-            display: 'flex',
+            display: 'none',
             listStyle: 'none',
-            gap: '2.5rem',
+            gap: '2rem',
             alignItems: 'center',
+            margin: 0,
+            padding: 0,
           }}
+          className="desktop-nav"
         >
           {navLinks.map((link, index) => (
             <motion.li
@@ -71,6 +108,7 @@ export default function Navbar() {
             >
               <a
                 href={link.href}
+                onClick={handleLinkClick}
                 style={{
                   textDecoration: 'none',
                   color: 'var(--text-dark)',
@@ -92,15 +130,22 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <motion.div
+        {/* Mobile Menu Button */}
+        <motion.button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           style={{
-            display: 'none',
+            display: 'flex',
             flexDirection: 'column',
             cursor: 'pointer',
             gap: '5px',
+            background: 'transparent',
+            border: 'none',
+            padding: '8px',
+            zIndex: 1001,
           }}
           whileTap={{ scale: 0.9 }}
+          aria-label="Toggle menu"
+          className="mobile-menu-btn"
         >
           <motion.span
             animate={{
@@ -112,6 +157,7 @@ export default function Navbar() {
               height: '3px',
               background: 'var(--text-dark)',
               transition: 'all 0.3s ease',
+              borderRadius: '2px',
             }}
           />
           <motion.span
@@ -121,6 +167,7 @@ export default function Navbar() {
               height: '3px',
               background: 'var(--text-dark)',
               transition: 'all 0.3s ease',
+              borderRadius: '2px',
             }}
           />
           <motion.span
@@ -133,10 +180,98 @@ export default function Navbar() {
               height: '3px',
               background: 'var(--text-dark)',
               transition: 'all 0.3s ease',
+              borderRadius: '2px',
             }}
           />
-        </motion.div>
+        </motion.button>
       </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              width: '100%',
+              background: 'var(--white)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+              borderTop: '1px solid var(--border-light)',
+              overflow: 'hidden',
+            }}
+          >
+            <ul
+              style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: '20px 0',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0',
+              }}
+            >
+              {navLinks.map((link, index) => (
+                <motion.li
+                  key={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <a
+                    href={link.href}
+                    onClick={handleLinkClick}
+                    style={{
+                      display: 'block',
+                      textDecoration: 'none',
+                      color: 'var(--text-dark)',
+                      fontWeight: 500,
+                      fontSize: '1.1rem',
+                      padding: '16px 40px',
+                      transition: 'all 0.3s ease',
+                      borderBottom: '1px solid var(--border-light)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'var(--light-green)'
+                      e.currentTarget.style.color = 'var(--primary-green)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = 'var(--text-dark)'
+                    }}
+                  >
+                    {link.label}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style jsx global>{`
+        @media (min-width: 769px) {
+          .desktop-nav {
+            display: flex !important;
+          }
+          .mobile-menu-btn {
+            display: none !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          .mobile-menu-btn {
+            display: flex !important;
+          }
+        }
+      `}</style>
     </motion.nav>
   )
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
 
 const services = [
   { 
@@ -33,19 +33,6 @@ const services = [
 export default function Services() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  // Auto-play carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % services.length)
-    }, 4000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  const getPrevIndex = () => (currentIndex - 1 + services.length) % services.length
-  const getNextIndex = () => (currentIndex + 1) % services.length
 
   return (
     <section
@@ -56,7 +43,6 @@ export default function Services() {
         position: 'relative',
         zIndex: 1,
         background: 'var(--white)',
-        overflow: 'hidden',
       }}
     >
       <div className="container">
@@ -89,333 +75,115 @@ export default function Services() {
           </p>
         </motion.div>
 
-        {/* Carousel Container with Glass Blur Preview */}
+        {/* Services Grid - All visible at once */}
         <div
           style={{
-            position: 'relative',
-            marginTop: '80px',
-            maxWidth: '1200px',
-            margin: '80px auto 0',
-            overflow: 'visible',
-            padding: '0 20px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px',
+            marginTop: '60px',
           }}
         >
-          {/* Previous Slide - Glass Blur Effect (Left) */}
-          <motion.div
-            initial={false}
-            animate={{
-              opacity: 0.3,
-              scale: 0.85,
-              x: -100,
-            }}
-            transition={{
-              type: 'spring',
-              stiffness: 300,
-              damping: 30,
-            }}
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '90%',
-              maxWidth: '500px',
-              zIndex: 1,
-              pointerEvents: 'none',
-            }}
-          >
-            <div
+          {services.map((service, index) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="card"
               style={{
-                padding: '40px',
-                background: 'rgba(255, 255, 255, 0.4)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                borderRadius: '24px',
-                border: '1px solid rgba(27, 170, 90, 0.2)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                opacity: 0.4,
+                padding: '40px 32px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                border: '1px solid var(--border-light)',
+                boxShadow: 'var(--shadow-soft)',
+                transition: 'all 0.3s ease',
+                height: '100%',
               }}
             >
-              <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, var(--primary-green), var(--deep-green))',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '2.5rem',
-                    margin: '0 auto 20px',
-                    opacity: 0.6,
-                  }}
-                >
-                  {services[getPrevIndex()].icon}
-                </div>
-                <h3
-                  style={{
-                    fontFamily: 'Poppins, sans-serif',
-                    fontSize: '1.8rem',
-                    fontWeight: 700,
-                    color: 'var(--deep-green)',
-                    marginBottom: '12px',
-                    opacity: 0.7,
-                  }}
-                >
-                  {services[getPrevIndex()].title}
-                </h3>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Current Slide - Center */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '550px',
-              zIndex: 3,
-            }}
-          >
-            {services.map((service, index) => (
+              {/* Icon */}
               <motion.div
-                key={service.title}
-                initial={false}
-                animate={{
-                  opacity: index === currentIndex ? 1 : 0,
-                  scale: index === currentIndex ? 1 : 0.95,
-                  y: index === currentIndex ? 0 : 20,
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 30,
-                  duration: 0.6,
-                }}
+                whileHover={{ scale: 1.1, rotate: 5 }}
                 style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: '24px',
+                  background: 'linear-gradient(135deg, var(--primary-green), var(--deep-green))',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  fontSize: '3rem',
+                  marginBottom: '28px',
+                  boxShadow: '0 8px 24px rgba(27, 170, 90, 0.25)',
                 }}
               >
-                <div
-                  className="card"
-                  style={{
-                    padding: '60px 50px',
-                    width: '100%',
-                    maxWidth: '900px',
-                    height: 'auto',
-                    minHeight: '500px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    border: '2px solid var(--primary-green)',
-                    boxShadow: '0 20px 60px rgba(27, 170, 90, 0.15)',
-                    margin: '0 auto',
-                    background: 'var(--white)',
-                    textAlign: 'center',
-                  }}
-                >
-                  {/* Icon */}
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
+                {service.icon}
+              </motion.div>
+
+              {/* Title */}
+              <h3
+                style={{
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '1.8rem',
+                  fontWeight: 700,
+                  color: 'var(--deep-green)',
+                  marginBottom: '16px',
+                }}
+              >
+                {service.title}
+              </h3>
+
+              {/* Description */}
+              <p
+                style={{
+                  color: 'var(--text-grey)',
+                  lineHeight: 1.8,
+                  fontSize: '1rem',
+                  marginBottom: '28px',
+                  flex: 1,
+                }}
+              >
+                {service.description}
+              </p>
+
+              {/* Features List */}
+              <div
+                style={{
+                  width: '100%',
+                  paddingTop: '24px',
+                  borderTop: '1px solid var(--border-light)',
+                }}
+              >
+                {service.features.map((feature, idx) => (
+                  <div
+                    key={idx}
                     style={{
-                      width: '120px',
-                      height: '120px',
-                      borderRadius: '28px',
-                      background: 'linear-gradient(135deg, var(--primary-green), var(--deep-green))',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '3.5rem',
-                      marginBottom: '40px',
-                      boxShadow: '0 10px 40px rgba(27, 170, 90, 0.3)',
-                    }}
-                  >
-                    {service.icon}
-                  </motion.div>
-
-                  {/* Title */}
-                  <h3
-                    style={{
-                      fontFamily: 'Poppins, sans-serif',
-                      fontSize: '2.5rem',
-                      fontWeight: 700,
-                      color: 'var(--deep-green)',
-                      marginBottom: '24px',
-                    }}
-                  >
-                    {service.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p
-                    style={{
+                      gap: '10px',
+                      marginBottom: '12px',
+                      fontSize: '0.9rem',
                       color: 'var(--text-grey)',
-                      lineHeight: 1.9,
-                      fontSize: '1.15rem',
-                      marginBottom: '40px',
-                      maxWidth: '700px',
                     }}
                   >
-                    {service.description}
-                  </p>
-
-                  {/* Features List */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '24px',
-                      flexWrap: 'wrap',
-                      justifyContent: 'center',
-                      paddingTop: '32px',
-                      borderTop: '1px solid var(--border-light)',
-                      width: '100%',
-                    }}
-                  >
-                    {service.features.map((feature, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '10px',
-                          padding: '10px 20px',
-                          background: 'var(--light-green)',
-                          borderRadius: '50px',
-                          fontSize: '0.95rem',
-                          color: 'var(--text-dark)',
-                          fontWeight: 500,
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: '6px',
-                            height: '6px',
-                            borderRadius: '50%',
-                            background: 'var(--primary-green)',
-                            flexShrink: 0,
-                          }}
-                        />
-                        {feature}
-                      </div>
-                    ))}
+                    <div
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        borderRadius: '50%',
+                        background: 'var(--primary-green)',
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span>{feature}</span>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Next Slide - Glass Blur Effect (Right) */}
-          <motion.div
-            initial={false}
-            animate={{
-              opacity: 0.3,
-              scale: 0.85,
-              x: 100,
-            }}
-            transition={{
-              type: 'spring',
-              stiffness: 300,
-              damping: 30,
-            }}
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '90%',
-              maxWidth: '500px',
-              zIndex: 1,
-              pointerEvents: 'none',
-            }}
-          >
-            <div
-              style={{
-                padding: '40px',
-                background: 'rgba(255, 255, 255, 0.4)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                borderRadius: '24px',
-                border: '1px solid rgba(27, 170, 90, 0.2)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                opacity: 0.4,
-              }}
-            >
-              <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, var(--primary-green), var(--deep-green))',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '2.5rem',
-                    margin: '0 auto 20px',
-                    opacity: 0.6,
-                  }}
-                >
-                  {services[getNextIndex()].icon}
-                </div>
-                <h3
-                  style={{
-                    fontFamily: 'Poppins, sans-serif',
-                    fontSize: '1.8rem',
-                    fontWeight: 700,
-                    color: 'var(--deep-green)',
-                    marginBottom: '12px',
-                    opacity: 0.7,
-                  }}
-                >
-                  {services[getNextIndex()].title}
-                </h3>
+                ))}
               </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Dots Indicator */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '12px',
-            marginTop: '50px',
-          }}
-        >
-          {services.map((_, index) => (
-            <motion.button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-              style={{
-                width: index === currentIndex ? '40px' : '12px',
-                height: '12px',
-                borderRadius: '6px',
-                background: index === currentIndex ? 'var(--primary-green)' : 'var(--border-light)',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                padding: 0,
-              }}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+            </motion.div>
           ))}
         </div>
       </div>

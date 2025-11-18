@@ -45,6 +45,10 @@ export default function Hero() {
         }}
       >
         <AnimatedWorldMap />
+        <AnimatedWorldMap />
+        <AnimatedWorldMap />
+        <AnimatedWorldMap />
+        <AnimatedWorldMap />
       </div>
 
       {/* Subtle background gradient */}
