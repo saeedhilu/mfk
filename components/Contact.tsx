@@ -51,9 +51,9 @@ export default function Contact() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '60px',
-            marginTop: '60px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: 'clamp(32px, 6vw, 60px)',
+            marginTop: 'clamp(40px, 6vw, 60px)',
           }}
         >
           <motion.div

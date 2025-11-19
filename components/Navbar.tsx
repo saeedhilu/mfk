@@ -17,20 +17,12 @@ export default function Navbar() {
 
   // Close mobile menu when clicking outside or on a link
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (isMobileMenuOpen && !target.closest('nav')) {
-        setIsMobileMenuOpen(false)
-      }
-    }
     if (isMobileMenuOpen) {
-      document.addEventListener('click', handleClickOutside)
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'unset'
     }
     return () => {
-      document.removeEventListener('click', handleClickOutside)
       document.body.style.overflow = 'unset'
     }
   }, [isMobileMenuOpen])
@@ -71,17 +63,18 @@ export default function Navbar() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '1.2rem 20px',
+          padding: 'clamp(0.8rem, 2vw, 1.2rem) clamp(16px, 4vw, 20px)',
         }}
       >
         <motion.div
           whileHover={{ scale: 1.05 }}
           style={{
             fontFamily: 'Poppins, sans-serif',
-            fontSize: 'clamp(1.2rem, 4vw, 1.5rem)',
+            fontSize: 'clamp(1.1rem, 4vw, 1.5rem)',
             fontWeight: 700,
             color: 'var(--deep-green)',
             zIndex: 1001,
+            whiteSpace: 'nowrap',
           }}
         >
           MFK <span style={{ color: 'var(--primary-green)' }}>Exports</span>
@@ -92,7 +85,7 @@ export default function Navbar() {
           style={{
             display: 'none',
             listStyle: 'none',
-            gap: '2rem',
+            gap: 'clamp(1rem, 2vw, 2rem)',
             alignItems: 'center',
             margin: 0,
             padding: 0,
@@ -113,9 +106,10 @@ export default function Navbar() {
                   textDecoration: 'none',
                   color: 'var(--text-dark)',
                   fontWeight: 500,
-                  fontSize: '1rem',
+                  fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
                   transition: 'color 0.3s ease',
                   position: 'relative',
+                  whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = 'var(--primary-green)'
@@ -203,13 +197,15 @@ export default function Navbar() {
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               borderTop: '1px solid var(--border-light)',
               overflow: 'hidden',
+              maxHeight: '100vh',
+              overflowY: 'auto',
             }}
           >
             <ul
               style={{
                 listStyle: 'none',
                 margin: 0,
-                padding: '20px 0',
+                padding: '16px 0',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0',
@@ -231,8 +227,8 @@ export default function Navbar() {
                       textDecoration: 'none',
                       color: 'var(--text-dark)',
                       fontWeight: 500,
-                      fontSize: '1.1rem',
-                      padding: '16px 40px',
+                      fontSize: '1rem',
+                      padding: '14px clamp(20px, 5vw, 40px)',
                       transition: 'all 0.3s ease',
                       borderBottom: '1px solid var(--border-light)',
                     }}

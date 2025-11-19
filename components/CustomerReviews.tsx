@@ -80,14 +80,25 @@ export default function CustomerReviews() {
   const [isHovered, setIsHovered] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
   const x = useMotionValue(0)
+
+  // Check if mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Duplicate reviews 3 times for seamless infinite scroll
   const duplicatedReviews = [...reviews, ...reviews, ...reviews]
 
-  // Calculate animation distance: one set of reviews
-  const cardWidth = 400
-  const gap = 32
+  // Calculate animation distance: one set of reviews (responsive card width)
+  const cardWidth = isMobile ? 320 : 400
+  const gap = isMobile ? 24 : 32
   const oneSetWidth = reviews.length * (cardWidth + gap)
   const animationDistance = -oneSetWidth
 
@@ -303,7 +314,7 @@ export default function CustomerReviews() {
               position: 'absolute',
               left: 0,
               top: 0,
-              width: '200px',
+              width: 'clamp(60px, 15vw, 200px)',
               height: '100%',
               background: 'linear-gradient(to right, var(--white), transparent)',
               zIndex: 10,
@@ -315,7 +326,7 @@ export default function CustomerReviews() {
               position: 'absolute',
               right: 0,
               top: 0,
-              width: '200px',
+              width: 'clamp(60px, 15vw, 200px)',
               height: '100%',
               background: 'linear-gradient(to left, var(--white), transparent)',
               zIndex: 10,
@@ -367,8 +378,9 @@ export default function CustomerReviews() {
                   boxShadow: 'var(--shadow-medium)',
                 }}
                 style={{
-                  padding: '40px',
-                  width: `${cardWidth}px`,
+                  padding: 'clamp(24px, 4vw, 40px)',
+                  width: `clamp(280px, 85vw, ${cardWidth}px)`,
+                  minWidth: '280px',
                   flexShrink: 0,
                   display: 'flex',
                   flexDirection: 'column',

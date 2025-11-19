@@ -42,9 +42,9 @@ export default function Location() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '40px',
-            marginTop: '60px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: 'clamp(24px, 4vw, 40px)',
+            marginTop: 'clamp(40px, 6vw, 60px)',
             alignItems: 'center',
           }}
         >
@@ -209,7 +209,8 @@ export default function Location() {
               overflow: 'hidden',
               boxShadow: 'var(--shadow-medium)',
               border: '1px solid var(--border-light)',
-              height: '500px',
+              height: 'clamp(300px, 50vh, 500px)',
+              minHeight: '300px',
             }}
           >
             <iframe
