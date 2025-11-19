@@ -1,7 +1,11 @@
 'use client'
 
-import { motion, useInView, useMotionValue } from 'framer-motion'
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, FreeMode } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/free-mode'
 
 interface Review {
   id: string
@@ -73,15 +77,7 @@ const reviews: Review[] = [
 export default function CustomerReviews() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const currentXRef = useRef(0)
-  const animationFrameRef = useRef<number | null>(null)
-  const lastTimestampRef = useRef<number | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-  const x = useMotionValue(0)
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -93,109 +89,12 @@ export default function CustomerReviews() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Duplicate reviews 3 times for seamless infinite scroll
+  // Duplicate reviews for seamless infinite scroll
   const duplicatedReviews = [...reviews, ...reviews, ...reviews]
 
-  // Calculate animation distance: one set of reviews (responsive card width)
+  // Calculate card width
   const cardWidth = isMobile ? 320 : 400
   const gap = isMobile ? 24 : 32
-  const oneSetWidth = reviews.length * (cardWidth + gap)
-  const animationDistance = -oneSetWidth
-
-  const wrapPosition = useCallback(
-    (value: number) => {
-      if (oneSetWidth === 0) return 0
-      const normalized = ((value % oneSetWidth) + oneSetWidth) % oneSetWidth
-      return normalized - oneSetWidth
-    },
-    [oneSetWidth]
-  )
-
-  const updatePosition = useCallback(
-    (value: number) => {
-      const wrapped = wrapPosition(value)
-      currentXRef.current = wrapped
-      x.set(wrapped)
-    },
-    [wrapPosition, x]
-  )
-
-  const cancelAnimation = useCallback(() => {
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current)
-      animationFrameRef.current = null
-    }
-    lastTimestampRef.current = null
-  }, [])
-
-  useEffect(() => {
-    const AUTO_SCROLL_SPEED = 60 // pixels per second
-
-    if (!isInView || isHovered || isDragging) {
-      cancelAnimation()
-      return
-    }
-
-    const step = (timestamp: number) => {
-      if (lastTimestampRef.current == null) {
-        lastTimestampRef.current = timestamp
-      }
-      const delta = timestamp - lastTimestampRef.current
-      lastTimestampRef.current = timestamp
-      const distance = (AUTO_SCROLL_SPEED * delta) / 1000
-      updatePosition(currentXRef.current - distance)
-      animationFrameRef.current = requestAnimationFrame(step)
-    }
-
-    animationFrameRef.current = requestAnimationFrame(step)
-
-    return () => {
-      cancelAnimation()
-    }
-  }, [isInView, isHovered, isDragging, updatePosition, cancelAnimation])
-
-  // Handle mouse drag
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true)
-    cancelAnimation()
-    setDragStart(e.clientX - currentXRef.current)
-  }
-
-  const handleMouseUp = () => {
-    setIsDragging(false)
-  }
-
-  // Handle wheel scroll
-  const handleWheel = (e: React.WheelEvent) => {
-    if (isHovered) {
-      e.preventDefault()
-      const scrollAmount = e.deltaY > 0 ? 150 : -150
-      const newX = currentXRef.current + scrollAmount
-      updatePosition(newX)
-    }
-  }
-
-  // Handle global mouse events for dragging
-  useEffect(() => {
-    if (isDragging) {
-      const handleGlobalMouseMove = (e: MouseEvent) => {
-        const newX = e.clientX - dragStart
-        updatePosition(newX)
-      }
-
-      const handleGlobalMouseUp = () => {
-        setIsDragging(false)
-      }
-
-      window.addEventListener('mousemove', handleGlobalMouseMove)
-      window.addEventListener('mouseup', handleGlobalMouseUp)
-
-      return () => {
-        window.removeEventListener('mousemove', handleGlobalMouseMove)
-        window.removeEventListener('mouseup', handleGlobalMouseUp)
-      }
-    }
-  }, [isDragging, dragStart, updatePosition])
 
   return (
     <section
@@ -288,24 +187,14 @@ export default function CustomerReviews() {
           </p>
         </motion.div>
 
-        {/* Continuous Scrolling Carousel */}
+        {/* Swiper Carousel */}
         <div
-          ref={carouselRef}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => {
-            setIsHovered(false)
-            setIsDragging(false)
-          }}
-          onMouseDown={handleMouseDown}
-          onWheel={handleWheel}
           style={{
             position: 'relative',
             overflow: 'hidden',
             marginTop: '40px',
             padding: '40px 0',
             width: '100%',
-            cursor: isDragging ? 'grabbing' : isHovered ? 'grab' : 'default',
-            userSelect: 'none',
           }}
         >
           {/* Gradient Overlays for fade effect */}
@@ -334,152 +223,160 @@ export default function CustomerReviews() {
             }}
           />
 
-          {/* Scroll hint when hovered */}
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              style={{
-                position: 'absolute',
-                top: '10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 20,
-                padding: '8px 20px',
-                background: 'rgba(27, 170, 90, 0.95)',
-                color: 'var(--white)',
-                borderRadius: '25px',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                pointerEvents: 'none',
-                boxShadow: '0 4px 12px rgba(27, 170, 90, 0.3)',
-              }}
-            >
-              Scroll or drag to navigate
-            </motion.div>
-          )}
-
-          {/* Scrolling Container */}
-          <motion.div
+          <Swiper
+            modules={[Autoplay, FreeMode]}
+            spaceBetween={gap}
+            slidesPerView="auto"
+            freeMode={{
+              enabled: true,
+              sticky: false,
+            }}
+            speed={2500}
+            autoplay={{
+              delay: 1,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+              reverseDirection: false,
+            }}
+            loop={true}
+            loopAdditionalSlides={reviews.length}
+            allowTouchMove={true}
+            grabCursor={true}
+            touchRatio={1}
+            resistance={true}
+            resistanceRatio={0.85}
             style={{
-              display: 'flex',
-              gap: `${gap}px`,
-              width: 'max-content',
-              x,
+              padding: '0',
+              overflow: 'visible',
+            }}
+            breakpoints={{
+              320: {
+                slidesPerView: 'auto',
+                spaceBetween: 24,
+              },
+              768: {
+                slidesPerView: 'auto',
+                spaceBetween: 32,
+              },
             }}
           >
             {duplicatedReviews.map((review, index) => (
-              <motion.div
+              <SwiperSlide
                 key={`${review.id}-${index}`}
-                className="card"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: 'var(--shadow-medium)',
-                }}
                 style={{
-                  padding: 'clamp(24px, 4vw, 40px)',
-                  width: `clamp(280px, 85vw, ${cardWidth}px)`,
+                  width: `${cardWidth}px`,
                   minWidth: '280px',
-                  flexShrink: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                  border: '1px solid var(--border-light)',
-                  boxShadow: 'var(--shadow-soft)',
-                  background: 'var(--white)',
-                  cursor: 'default',
-                  pointerEvents: 'auto',
+                  height: 'auto',
                 }}
               >
-                {/* Rating Stars */}
-                <div
-                  style={{
-                    fontSize: '1.3rem',
-                    color: 'var(--primary-green)',
-                    marginBottom: '24px',
+                <motion.div
+                  className="card"
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: 'var(--shadow-medium)',
                   }}
-                >
-                  {'⭐'.repeat(review.rating)}
-                </div>
-
-                {/* Review Comment */}
-                <p
                   style={{
-                    color: 'var(--text-dark)',
-                    lineHeight: 1.8,
-                    fontSize: '1.05rem',
-                    marginBottom: '32px',
-                    flex: 1,
-                    fontStyle: 'italic',
-                  }}
-                >
-                  &ldquo;{review.comment}&rdquo;
-                </p>
-
-                {/* Customer Info */}
-                <div
-                  style={{
+                    padding: 'clamp(24px, 4vw, 40px)',
+                    width: '100%',
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    paddingTop: '24px',
-                    borderTop: '1px solid var(--border-light)',
+                    flexDirection: 'column',
+                    height: '100%',
+                    border: '1px solid var(--border-light)',
+                    boxShadow: 'var(--shadow-soft)',
+                    background: 'var(--white)',
+                    cursor: 'default',
+                    touchAction: 'manipulation',
                   }}
                 >
+                  {/* Rating Stars */}
                   <div
                     style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, var(--primary-green), var(--deep-green))',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '1.8rem',
-                      color: 'var(--white)',
-                      flexShrink: 0,
-                      boxShadow: '0 4px 12px rgba(27, 170, 90, 0.2)',
+                      fontSize: '1.3rem',
+                      color: 'var(--primary-green)',
+                      marginBottom: '24px',
                     }}
                   >
-                    {review.avatar}
+                    {'⭐'.repeat(review.rating)}
                   </div>
-                  <div>
-                    <h4
+
+                  {/* Review Comment */}
+                  <p
+                    style={{
+                      color: 'var(--text-dark)',
+                      lineHeight: 1.8,
+                      fontSize: '1.05rem',
+                      marginBottom: '32px',
+                      flex: 1,
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    &ldquo;{review.comment}&rdquo;
+                  </p>
+
+                  {/* Customer Info */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '16px',
+                      paddingTop: '24px',
+                      borderTop: '1px solid var(--border-light)',
+                    }}
+                  >
+                    <div
                       style={{
-                        fontFamily: 'Poppins, sans-serif',
-                        fontSize: '1.15rem',
-                        fontWeight: 600,
-                        color: 'var(--deep-green)',
-                        marginBottom: '4px',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, var(--primary-green), var(--deep-green))',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.8rem',
+                        color: 'var(--white)',
+                        flexShrink: 0,
+                        boxShadow: '0 4px 12px rgba(27, 170, 90, 0.2)',
                       }}
                     >
-                      {review.name}
-                    </h4>
-                    <p
-                      style={{
-                        color: 'var(--text-grey)',
-                        fontSize: '0.95rem',
-                        margin: '0 0 4px 0',
-                        fontWeight: 500,
-                      }}
-                    >
-                      {review.company}
-                    </p>
-                    <p
-                      style={{
-                        color: 'var(--text-light)',
-                        fontSize: '0.85rem',
-                        margin: 0,
-                      }}
-                    >
-                      📍 {review.location}
-                    </p>
+                      {review.avatar}
+                    </div>
+                    <div>
+                      <h4
+                        style={{
+                          fontFamily: 'Poppins, sans-serif',
+                          fontSize: '1.15rem',
+                          fontWeight: 600,
+                          color: 'var(--deep-green)',
+                          marginBottom: '4px',
+                        }}
+                      >
+                        {review.name}
+                      </h4>
+                      <p
+                        style={{
+                          color: 'var(--text-grey)',
+                          fontSize: '0.95rem',
+                          margin: '0 0 4px 0',
+                          fontWeight: 500,
+                        }}
+                      >
+                        {review.company}
+                      </p>
+                      <p
+                        style={{
+                          color: 'var(--text-light)',
+                          fontSize: '0.85rem',
+                          margin: 0,
+                        }}
+                      >
+                        📍 {review.location}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </SwiperSlide>
             ))}
-          </motion.div>
+          </Swiper>
         </div>
 
         {/* Trust Badge */}

@@ -4,12 +4,12 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
 const services = [
-  { 
-    icon: '🚚', 
-    title: 'Cold Chain Logistics', 
-    description: 'Temperature-controlled transportation ensuring freshness from farm to destination. Our advanced cold chain system maintains optimal conditions throughout the journey.',
-    features: ['Temperature Monitoring', 'Real-time Tracking', 'Quality Assurance']
-  },
+  // { 
+  //   icon: '🚚', 
+  //   title: 'Cold Chain Logistics', 
+  //   description: 'Temperature-controlled transportation ensuring freshness from farm to destination. Our advanced cold chain system maintains optimal conditions throughout the journey.',
+  //   features: ['Temperature Monitoring', 'Real-time Tracking', 'Quality Assurance']
+  // },
   { 
     icon: '📦', 
     title: 'Packaging Solutions', 
@@ -75,14 +75,17 @@ export default function Services() {
           </p>
         </motion.div>
 
-        {/* Services Grid - All visible at once */}
+        {/* Services Grid - Optimized for 2x2 on medium, 4 columns on large */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '32px',
             marginTop: '60px',
+            maxWidth: '1200px',
+            margin: '60px auto 0',
           }}
+          className="services-grid"
         >
           {services.map((service, index) => (
             <motion.div
@@ -187,6 +190,33 @@ export default function Services() {
           ))}
         </div>
       </div>
+
+      <style jsx global>{`
+        .services-grid {
+          display: grid;
+        }
+        
+        /* Mobile: 1 column */
+        @media (max-width: 640px) {
+          .services-grid {
+            gridTemplateColumns: 1fr !important;
+          }
+        }
+        
+        /* Tablet: 2 columns */
+        @media (min-width: 641px) and (max-width: 1024px) {
+          .services-grid {
+            gridTemplateColumns: repeat(2, 1fr) !important;
+          }
+        }
+        
+        /* Desktop: 4 columns in one row */
+        @media (min-width: 1025px) {
+          .services-grid {
+            gridTemplateColumns: repeat(4, 1fr) !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }
