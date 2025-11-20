@@ -37,7 +37,7 @@ export default function Contact() {
         background: 'var(--white)',
       }}
     >
-      <div className="container">
+      <div>
         <motion.div
           className="section-header"
           initial={{ opacity: 0, y: 30 }}

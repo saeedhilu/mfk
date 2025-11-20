@@ -32,7 +32,7 @@
 //         background: 'var(--light-green)',
 //       }}
 //     >
-//       <div className="container">
+//       <div  >
 //         <motion.div
 //           className="section-header"
 //           initial={{ opacity: 0, y: 30 }}
@@ -163,7 +163,7 @@ export default function GlobalReach() {
         position: 'relative',
       }}
     >
-      <div className="container">
+      <div  >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

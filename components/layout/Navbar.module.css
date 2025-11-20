@@ -1,0 +1,128 @@
+/* scoped styles for responsive navbar */
+.navbar {
+    position: relative;
+    z-index: 60;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    background: rgba(255,255,255,0.98);
+  }
+  
+  /* container uses your .container utility; keep layout consistent */
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0;
+  }
+  
+  /* brand */
+  .brand {
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+    font-weight:700;
+    font-size: 1.125rem;
+  }
+  
+  /* desktop nav */
+  .nav {
+    display:flex;
+    gap: 1.25rem;
+    align-items:center;
+  }
+  
+  /* hide on mobile */
+  .desktopOnly { display: none; }
+  
+  /* hamburger */
+  .hamburger {
+    display: inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;
+    height:44px;
+    border-radius:10px;
+    border:1px solid rgba(0,0,0,0.06);
+    background: transparent;
+  }
+  
+  /* visually-hidden label */
+  .sr {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  
+  /* Off-canvas panel (mobile menu) */
+  .panel {
+    position: fixed;
+    inset: 0;
+    display:flex;
+    justify-content:flex-end;
+    pointer-events: none; /* animation toggles pointer-events */
+  }
+  
+  /* inner panel content */
+  .panelInner {
+    width: min(92vw, 360px);
+    max-width: 100%;
+    height: 100%;
+    background: rgb(var(--bg));
+    box-shadow: 0 24px 60px rgba(6, 24, 12, 0.2);
+    padding: 28px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  /* mobile-only nav links inside panel */
+  .mobileLinks {
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .mobileLink {
+    padding: 12px 8px;
+    border-radius: 10px;
+    color: rgb(var(--color-earth));
+    font-weight:600;
+  }
+  
+  /* CTA inside nav (desktop) */
+  .cta {
+    margin-left: 8px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgb(var(--color-leaf));
+    color: white;
+    font-weight:700;
+  }
+  
+  /* close icon area */
+  .panelHeader {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  
+  /* backdrop (for click outside) */
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.28);
+    pointer-events: auto;
+  }
+  
+  /* Desktop layout breakpoint */
+  @media (min-width: 768px) {
+    .desktopOnly { display: flex; }
+    .hamburger { display: none; }
+    .panel { display: none; }
+  }
+  

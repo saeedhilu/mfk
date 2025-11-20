@@ -1,0 +1,115 @@
+:root {
+  /* ============================================
+     SPACING SCALE (4/8/12/16/24/32/48/64)
+     ============================================ */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.5rem;   /* 24px */
+  --space-6: 2rem;     /* 32px */
+  --space-7: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+  --space-9: 5rem;     /* 80px - for section padding */
+  --space-10: 6rem;   /* 96px */
+
+  /* ============================================
+     TYPOGRAPHY SCALE (clamp-based)
+     ============================================ */
+  --font-family-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);    /* 12-14px */
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);      /* 14-16px */
+  --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);    /* 16-18px */
+  --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);      /* 18-24px */
+  --font-size-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);            /* 24-32px */
+  --font-size-2xl: clamp(2rem, 1.6rem + 2vw, 3rem);             /* 32-48px */
+  --font-size-3xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);           /* 40-64px */
+  --font-size-4xl: clamp(3rem, 2.4rem + 3vw, 5.5rem);            /* 48-88px */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+  --line-height-loose: 1.8;
+
+  /* ============================================
+     COLOR SYSTEM (Agriculture Green Palette)
+     ============================================ */
+  /* Primary Greens */
+  --color-green-50: #F0F9F4;
+  --color-green-100: #D1F2E0;
+  --color-green-200: #A3E5C1;
+  --color-green-300: #75D8A2;
+  --color-green-400: #47CB83;
+  --color-green-500: #1BAA5A;  /* Primary */
+  --color-green-600: #15884A;
+  --color-green-700: #0E5A32;  /* Deep/Dark */
+  --color-green-800: #0A3D22;
+  --color-green-900: #052011;
+
+  /* Neutral Backgrounds */
+  --color-bg-primary: #FAFAF7;
+  --color-bg-secondary: #F3F7F0;
+  --color-bg-white: #FFFFFF;
+  --color-bg-overlay: rgba(255, 255, 255, 0.95);
+
+  /* Text Colors */
+  --color-text-primary: #1A1F16;      /* Almost black */
+  --color-text-secondary: #5A6C7D;     /* Soft gray */
+  --color-text-tertiary: #8B9AAB;     /* Light gray */
+  --color-text-inverse: #FFFFFF;
+
+  /* Semantic Colors */
+  --color-success: var(--color-green-500);
+  --color-border: #E0E8ED;
+  --color-border-light: rgba(27, 170, 90, 0.1);
+
+  /* ============================================
+     SHADOWS (Soft, minimal)
+     ============================================ */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.1);
+
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius-md: 0.75rem;  /* 12px */
+  --radius-lg: 1rem;     /* 16px */
+  --radius-xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;
+
+  /* ============================================
+     TRANSITIONS
+     ============================================ */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  --container-max-width: 1200px;
+  --section-padding: clamp(3rem, 6vw, 5rem); /* 48-80px */
+  --section-padding-mobile: clamp(2.5rem, 5vw, 3rem);
+
+  /* ============================================
+     Z-INDEX SCALE
+     ============================================ */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+}

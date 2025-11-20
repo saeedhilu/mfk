@@ -1,0 +1,22 @@
+.section {
+  padding-block: var(--section-padding);
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+}
+
+.bg-white {
+  background-color: var(--color-bg-white);
+}
+
+.bg-primary {
+  background-color: var(--color-bg-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-bg-secondary);
+}

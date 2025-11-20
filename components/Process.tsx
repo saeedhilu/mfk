@@ -57,7 +57,7 @@ export default function Process() {
         background: 'var(--light-green)',
       }}
     >
-      <div className="container">
+      <div  >
         <motion.div
           className="section-header"
           initial={{ opacity: 0, y: 30 }}

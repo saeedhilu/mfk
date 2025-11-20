@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import styles from './Navbar.module.css'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -15,7 +16,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu when clicking outside or on a link
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden'
@@ -40,60 +40,33 @@ export default function Navbar() {
     setIsMobileMenuOpen(false)
   }
 
+  const handleMobileLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault()
+    handleLinkClick()
+    const targetId = href.substring(1)
+    const targetElement = document.getElementById(targetId)
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      style={{
-        position: 'fixed',
-        top: 0,
-        width: '100%',
-        background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.98)',
-        backdropFilter: 'blur(10px)',
-        boxShadow: isScrolled ? '0 2px 20px rgba(0, 0, 0, 0.08)' : 'none',
-        zIndex: 1000,
-        transition: 'all 0.3s ease',
-        borderBottom: isScrolled ? '1px solid var(--border-light)' : 'none',
-      }}
+      className={`${styles.nav} ${isScrolled ? styles.navScrolled : ''}`}
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: 'clamp(0.8rem, 2vw, 1.2rem) clamp(20px, 5vw, 40px)',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          width: '100%',
-        }}
-      >
+      <div className={styles.navInner}>
         <motion.div
           whileHover={{ scale: 1.05 }}
-          style={{
-            fontFamily: 'Poppins, sans-serif',
-            fontSize: 'clamp(1.1rem, 4vw, 1.5rem)',
-            fontWeight: 700,
-            color: 'var(--deep-green)',
-            zIndex: 1001,
-            whiteSpace: 'nowrap',
-          }}
+          className={styles.logo}
         >
-          MFK <span style={{ color: 'var(--primary-green)' }}>Exports</span>
+          MFK <span className={styles.logoAccent}>Exports</span>
         </motion.div>
 
         {/* Desktop Navigation */}
-        <ul
-          style={{
-            display: 'none',
-            listStyle: 'none',
-            gap: 'clamp(1rem, 2vw, 2rem)',
-            alignItems: 'center',
-            margin: 0,
-            padding: 0,
-          }}
-          className="desktop-nav"
-        >
+        <ul className={styles.desktopNav}>
           {navLinks.map((link, index) => (
             <motion.li
               key={link.href}
@@ -104,21 +77,7 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={handleLinkClick}
-                style={{
-                  textDecoration: 'none',
-                  color: 'var(--text-dark)',
-                  fontWeight: 500,
-                  fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
-                  transition: 'color 0.3s ease',
-                  position: 'relative',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = 'var(--primary-green)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'var(--text-dark)'
-                }}
+                className={styles.navLink}
               >
                 {link.label}
               </a>
@@ -129,69 +88,33 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <motion.button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            cursor: 'pointer',
-            gap: '5px',
-            background: 'transparent',
-            border: 'none',
-            padding: '8px',
-            zIndex: 1001,
-          }}
+          className={styles.mobileMenuBtn}
           whileTap={{ scale: 0.9 }}
           aria-label="Toggle menu"
-          className="mobile-menu-btn"
         >
           <motion.span
             animate={{
               rotate: isMobileMenuOpen ? 45 : 0,
               y: isMobileMenuOpen ? 8 : 0,
             }}
-            transition={{
-              duration: 0.3,
-              ease: 'easeInOut',
-            }}
-            style={{
-              width: '25px',
-              height: '3px',
-              background: 'var(--text-dark)',
-              borderRadius: '2px',
-              transformOrigin: 'center',
-            }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className={styles.hamburgerLine}
           />
           <motion.span
-            animate={{ 
+            animate={{
               opacity: isMobileMenuOpen ? 0 : 1,
               scale: isMobileMenuOpen ? 0 : 1,
             }}
-            transition={{
-              duration: 0.2,
-              ease: 'easeInOut',
-            }}
-            style={{
-              width: '25px',
-              height: '3px',
-              background: 'var(--text-dark)',
-              borderRadius: '2px',
-            }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            className={styles.hamburgerLine}
           />
           <motion.span
             animate={{
               rotate: isMobileMenuOpen ? -45 : 0,
               y: isMobileMenuOpen ? -8 : 0,
             }}
-            transition={{
-              duration: 0.3,
-              ease: 'easeInOut',
-            }}
-            style={{
-              width: '25px',
-              height: '3px',
-              background: 'var(--text-dark)',
-              borderRadius: '2px',
-              transformOrigin: 'center',
-            }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className={styles.hamburgerLine}
           />
         </motion.button>
       </div>
@@ -204,79 +127,32 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            style={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              width: '100%',
-              background: 'var(--white)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-              borderTop: '1px solid var(--border-light)',
-              overflow: 'hidden',
-              maxHeight: '100vh',
-              overflowY: 'auto',
-            }}
+            className={styles.mobileMenu}
           >
-            <ul
-              style={{
-                listStyle: 'none',
-                margin: 0,
-                padding: '16px 0',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0',
-              }}
-            >
+            <ul className={styles.mobileMenuList}>
               {navLinks.map((link, index) => (
                 <motion.li
                   key={link.href}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  transition={{ 
+                  transition={{
                     delay: index * 0.05,
                     duration: 0.3,
                     ease: 'easeOut',
                   }}
+                  className={styles.mobileMenuItem}
                 >
                   <motion.a
                     href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleLinkClick()
-                      // Smooth scroll to section
-                      const targetId = link.href.substring(1)
-                      const targetElement = document.getElementById(targetId)
-                      if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                      }
-                    }}
+                    onClick={(e) => handleMobileLinkClick(e, link.href)}
                     whileTap={{ scale: 0.95 }}
-                    style={{
-                      display: 'block',
-                      textDecoration: 'none',
-                      color: 'var(--text-dark)',
-                      fontWeight: 500,
-                      fontSize: '1rem',
-                      padding: '14px clamp(20px, 5vw, 40px)',
-                      borderBottom: '1px solid var(--border-light)',
-                      position: 'relative',
-                      overflow: 'hidden',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--light-green)'
-                      e.currentTarget.style.color = 'var(--primary-green)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent'
-                      e.currentTarget.style.color = 'var(--text-dark)'
-                    }}
+                    className={styles.mobileMenuLink}
                   >
                     <motion.span
                       initial={{ x: -10, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: index * 0.05 + 0.1 }}
-                      style={{ display: 'block' }}
                     >
                       {link.label}
                     </motion.span>
@@ -287,25 +163,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <style jsx global>{`
-        @media (min-width: 769px) {
-          .desktop-nav {
-            display: flex !important;
-          }
-          .mobile-menu-btn {
-            display: none !important;
-          }
-        }
-        @media (max-width: 768px) {
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: flex !important;
-          }
-        }
-      `}</style>
     </motion.nav>
   )
 }

@@ -1,0 +1,189 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(80px, 10vh, 100px) var(--space-4) clamp(40px, 6vh, 60px);
+  position: relative;
+  z-index: var(--z-base);
+  overflow: hidden;
+  background-color: var(--color-bg-white);
+}
+
+.mapBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.gradientOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(233, 240, 235, 0.4) 100%);
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.badge {
+  display: inline-block;
+  padding: clamp(6px, 1vw, 8px) clamp(16px, 3vw, 20px);
+  background: rgba(27, 170, 90, 0.1);
+  border: 1px solid rgba(27, 170, 90, 0.2);
+  border-radius: var(--radius-full);
+  margin-bottom: clamp(16px, 3vw, 24px);
+}
+
+.badgeText {
+  color: var(--color-green-500);
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+  font-weight: var(--font-weight-semibold);
+}
+
+.heading {
+  font-size: var(--font-size-4xl);
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-tight);
+  margin-bottom: clamp(16px, 3vw, 24px);
+  color: var(--color-green-700);
+  letter-spacing: -0.03em;
+}
+
+.headingAccent {
+  color: var(--color-green-500);
+}
+
+.description {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: clamp(24px, 4vw, 40px);
+  line-height: var(--line-height-relaxed);
+  max-width: 650px;
+  margin-inline: auto;
+  margin-bottom: clamp(24px, 4vw, 40px);
+  font-weight: var(--font-weight-normal);
+}
+
+.ctaGroup {
+  display: flex;
+  gap: clamp(12px, 2vw, 16px);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: clamp(40px, 8vh, 80px);
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(20px, 3vw, 28px);
+  margin-top: clamp(40px, 6vh, 60px);
+  margin-bottom: clamp(30px, 5vh, 50px);
+}
+
+.featureCard {
+  text-align: center;
+  padding: clamp(20px, 3vw, 28px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(27, 170, 90, 0.1);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+
+.featureCard:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.featureIcon {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: clamp(8px, 1.5vw, 12px);
+}
+
+.featureTitle {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-green-700);
+  margin-bottom: var(--space-2);
+}
+
+.featureDescription {
+  color: var(--color-text-secondary);
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  margin: 0;
+}
+
+.statsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+  padding: var(--space-6);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(27, 170, 90, 0.12);
+  box-shadow: var(--shadow-lg);
+}
+
+.statItem {
+  text-align: center;
+  padding: var(--space-4) var(--space-2);
+}
+
+.statIcon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-2);
+}
+
+.statNumber {
+  font-family: var(--font-family-heading);
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-green-500);
+  margin-bottom: var(--space-1);
+}
+
+.statLabel {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: clamp(60px, 8vh, 80px) var(--space-3) clamp(30px, 5vh, 40px);
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .statsContainer {
+    grid-template-columns: 1fr;
+    padding: var(--space-5);
+    gap: var(--space-4);
+  }
+}
+

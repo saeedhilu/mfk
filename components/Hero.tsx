@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import AnimatedWorldMap from './AnimatedWorldMap'
+import styles from './Hero.module.css'
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null)
@@ -14,262 +15,136 @@ export default function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
+  const features = [
+    { icon: '🌡️', title: 'Temperature Control', description: 'Advanced cold chain technology' },
+    { icon: '📊', title: 'Real-time Tracking', description: 'Monitor your shipments 24/7' },
+    { icon: '✅', title: 'Quality Certified', description: 'International standards compliance' },
+    { icon: '⚡', title: 'Fast Delivery', description: 'Optimized global routes' },
+  ]
+
+  const stats = [
+    { number: '500+', label: 'Countries', icon: '🌍' },
+    { number: '10K+', label: 'Tons Exported', icon: '📦' },
+    { number: '98%', label: 'Satisfaction', icon: '⭐' },
+  ]
+
   return (
-    <section
-      id="home"
-      ref={ref}
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 'clamp(80px, 10vh, 100px) clamp(16px, 4vw, 20px) clamp(40px, 6vh, 60px)',
-        position: 'relative',
-        zIndex: 1,
-        overflow: 'hidden',
-        background: 'var(--white)',
-      }}
-    >
-      {/* Animated World Map with Airplane - Hero Background */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-          opacity: 0.4,
-          pointerEvents: 'none',
-        }}
-      >
+    <section id="home" ref={ref} className={styles.hero}>
+      {/* Animated World Map Background */}
+      <div className={styles.mapBackground}>
         <AnimatedWorldMap />
       </div>
 
-      {/* Subtle background gradient */}
+      {/* Gradient Overlay */}
       <motion.div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(233, 240, 235, 0.4) 100%)',
-          y,
-          opacity,
-          zIndex: 1,
-        }}
+        className={styles.gradientOverlay}
+        style={{ y, opacity } as React.CSSProperties}
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%' }}>
+      <div className={styles.content}>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          style={{
-            textAlign: 'center',
-            // maxWidth: '900px',
-            margin: '0 auto',
-          }}
         >
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{
-              display: 'inline-block',
-              padding: 'clamp(6px, 1vw, 8px) clamp(16px, 3vw, 20px)',
-              background: 'rgba(27, 170, 90, 0.1)',
-              border: '1px solid rgba(27, 170, 90, 0.2)',
-              borderRadius: '50px',
-              marginBottom: 'clamp(16px, 3vw, 24px)',
-            }}
+            className={styles.badge}
           >
-            <span style={{ color: 'var(--primary-green)', fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)', fontWeight: 600 }}>
+            <span className={styles.badgeText}>
               🌍 Trusted by 1,000+ Businesses Worldwide
             </span>
           </motion.div>
 
+          {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            style={{
-              fontSize: 'clamp(2.5rem, 7vw, 5.5rem)',
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 800,
-              lineHeight: 1.1,
-              marginBottom: 'clamp(16px, 3vw, 24px)',
-              color: 'var(--deep-green)',
-              letterSpacing: '-0.03em',
-            }}
+            className={styles.heading}
           >
             Export Fresh Produce
             <br />
-            <span style={{ color: 'var(--primary-green)' }}>Globally</span>
+            <span className={styles.headingAccent}>Globally</span>
           </motion.h1>
 
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.4rem)',
-              color: 'var(--text-grey)',
-              marginBottom: 'clamp(24px, 4vw, 40px)',
-              lineHeight: 1.7,
-              maxWidth: '650px',
-              margin: '0 auto clamp(24px, 4vw, 40px)',
-              fontWeight: 400,
-            }}
+            className={styles.description}
           >
-            Premium logistics solutions for fruits and vegetables. 
-            Connecting farms to global markets with excellence and reliability. 
-            We specialize in temperature-controlled transportation, quality assurance, 
+            Premium logistics solutions for fruits and vegetables.
+            Connecting farms to global markets with excellence and reliability.
+            We specialize in temperature-controlled transportation, quality assurance,
             and seamless international trade documentation.
           </motion.p>
 
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            style={{ 
-              display: 'flex', 
-              gap: 'clamp(12px, 2vw, 16px)', 
-              justifyContent: 'center', 
-              flexWrap: 'wrap',
-              marginBottom: 'clamp(40px, 8vh, 80px)',
-            }}
+            className={styles.ctaGroup}
           >
-            <a href="#contact" className="btn btn-primary" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.05rem)', padding: 'clamp(14px, 2.5vw, 18px) clamp(32px, 5vw, 40px)' }}>
+            <a href="#contact" className="btn btn-primary">
               Start Exporting
             </a>
-            <a href="#services" className="btn btn-secondary" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.05rem)', padding: 'clamp(14px, 2.5vw, 18px) clamp(32px, 5vw, 40px)' }}>
+            <a href="#services" className="btn btn-secondary">
               View Services
             </a>
           </motion.div>
 
-          {/* Key Features Grid */}
+          {/* Features Grid */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 'clamp(20px, 3vw, 28px)',
-              marginTop: 'clamp(40px, 6vh, 60px)',
-              marginBottom: 'clamp(30px, 5vh, 50px)',
-            }}
+            className={styles.featuresGrid}
           >
-            {[
-              { icon: '🌡️', title: 'Temperature Control', description: 'Advanced cold chain technology' },
-              { icon: '📊', title: 'Real-time Tracking', description: 'Monitor your shipments 24/7' },
-              { icon: '✅', title: 'Quality Certified', description: 'International standards compliance' },
-              { icon: '⚡', title: 'Fast Delivery', description: 'Optimized global routes' },
-            ].map((feature, index) => (
+            {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.05 }}
-                style={{
-                  textAlign: 'center',
-                  padding: 'clamp(20px, 3vw, 28px)',
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(10px)',
-                  borderRadius: '16px',
-                  border: '1px solid rgba(27, 170, 90, 0.1)',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-                }}
+                className={styles.featureCard}
               >
-                <div style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', marginBottom: 'clamp(8px, 1.5vw, 12px)' }}>
-                  {feature.icon}
-                </div>
-                <h4
-                  style={{
-                    fontFamily: 'Poppins, sans-serif',
-                    fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-                    fontWeight: 600,
-                    color: 'var(--deep-green)',
-                    marginBottom: '8px',
-                  }}
-                >
-                  {feature.title}
-                </h4>
-                <p style={{ color: 'var(--text-grey)', fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)', margin: 0 }}>
-                  {feature.description}
-                </p>
+                <div className={styles.featureIcon}>{feature.icon}</div>
+                <h4 className={styles.featureTitle}>{feature.title}</h4>
+                <p className={styles.featureDescription}>{feature.description}</p>
               </motion.div>
             ))}
           </motion.div>
 
           {/* Stats Row */}
           <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, delay: 1.0 }}
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: '24px',
-    marginTop: '32px',
-    padding: '32px',
-    background: 'rgba(255,255,255,0.85)',
-    backdropFilter: 'blur(16px)',
-    borderRadius: '20px',
-    border: '1px solid rgba(27,170,90,0.12)',
-    boxShadow: '0 12px 40px rgba(0,0,0,0.06)',
-  }}
->
-  {[
-    { number: '500+', label: 'Countries', icon: '🌍' },
-    { number: '10K+', label: 'Tons Exported', icon: '📦' },
-    { number: '98%', label: 'Satisfaction', icon: '⭐' },
-  ].map((stat, index) => (
-    <motion.div
-      key={stat.label}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
-      style={{
-        textAlign: 'center',
-        padding: '16px 8px',
-      }}
-    >
-      <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>{stat.icon}</div>
-
-      <div
-        style={{
-          fontFamily: 'Poppins, sans-serif',
-          fontSize: '2rem',
-          fontWeight: 700,
-          color: 'var(--primary-green)',
-          marginBottom: '4px',
-        }}
-      >
-        {stat.number}
-      </div>
-
-      <div
-        style={{
-          color: 'var(--text-grey)',
-          fontSize: '1rem',
-          fontWeight: 500,
-        }}
-      >
-        {stat.label}
-      </div>
-    </motion.div>
-  ))}
-</motion.div>
-
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+            className={styles.statsContainer}
+          >
+            {stats.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
+                className={styles.statItem}
+              >
+                <div className={styles.statIcon}>{stat.icon}</div>
+                <div className={styles.statNumber}>{stat.number}</div>
+                <div className={styles.statLabel}>{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
     </section>
   )
 }
-
