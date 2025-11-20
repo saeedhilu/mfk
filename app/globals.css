@@ -1,11 +1,36 @@
+/* -------------------------------------------------
+   1. RESET & BASE
+------------------------------------------------- */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  background: #FFFFFF;
+  color: #2C3E50;
+}
+
+/* -------------------------------------------------
+   2. THEME VARIABLES
+------------------------------------------------- */
+
 :root {
-  /* Premium Green Color Palette */
   --primary-green: #1BAA5A;
   --deep-green: #0E5A32;
   --white: #FFFFFF;
@@ -14,57 +39,96 @@
   --text-grey: #5A6C7D;
   --text-light: #8B9AAB;
   --border-light: #E0E8ED;
-  
-  /* Shadows */
+
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
   --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
   --shadow-hover: 0 12px 40px rgba(27, 170, 90, 0.15);
-  
-  /* Gradients */
+
   --gradient-green: linear-gradient(135deg, var(--primary-green), var(--deep-green));
   --gradient-light: linear-gradient(180deg, var(--white) 0%, var(--light-green) 100%);
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.6;
-  color: var(--text-dark);
-  overflow-x: hidden;
-  background-color: var(--white);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* -------------------------------------------------
+   3. TYPOGRAPHY
+------------------------------------------------- */
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', 'Inter', sans-serif;
   font-weight: 700;
-  color: var(--deep-green);
   letter-spacing: -0.02em;
+  color: var(--deep-green);
 }
 
+/* -------------------------------------------------
+   4. LAYOUT SYSTEM
+------------------------------------------------- */
+
+/* Main content container (Used for all regular sections) */
 .container {
-  /* max-width: 1200px; */
-  /* margin: 0 auto; */
-  /* padding: 0 clamp(16px, 4vw, 40px); */
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* Buttons */
+/* Full-width sections with backgrounds (Hero, Global Reach) */
+.full-bleed {
+  width: 100%;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+/* Optional variant: full-width but with safe padding */
+.section-full {
+  width: 100%;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+
+/* -------------------------------------------------
+   5. SECTIONS
+------------------------------------------------- */
+
+section {
+  padding: clamp(60px, 8vh, 80px) 0;
+  position: relative;
+  z-index: 1;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-grey);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* -------------------------------------------------
+   6. UI COMPONENTS
+------------------------------------------------- */
+
 .btn {
+  display: inline-block;
   padding: 16px 40px;
   border-radius: 8px;
-  text-decoration: none;
+  border: 2px solid transparent;
+  font-size: 16px;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
-  display: inline-block;
-  border: 2px solid transparent;
+  text-decoration: none;
   cursor: pointer;
-  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .btn-primary {
@@ -91,43 +155,13 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-2px);
 }
 
-/* Sections */
-section {
-  padding: clamp(60px, 8vh, 80px) 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.section-title {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 800;
-  color: var(--deep-green);
-  margin-bottom: 1rem;
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: -0.02em;
-}
-
-.section-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-grey);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.8;
-}
-
-/* Cards */
 .card {
   background: var(--white);
   border-radius: 16px;
   padding: 32px;
+  border: 1px solid var(--border-light);
   box-shadow: var(--shadow-soft);
   transition: all 0.3s ease;
-  border: 1px solid var(--border-light);
 }
 
 .card:hover {
@@ -135,7 +169,10 @@ section {
   box-shadow: var(--shadow-medium);
 }
 
-/* Scrollbar */
+/* -------------------------------------------------
+   7. SCROLLBAR
+------------------------------------------------- */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -153,27 +190,26 @@ section {
   background: var(--deep-green);
 }
 
-/* Responsive */
+/* -------------------------------------------------
+   8. RESPONSIVE
+------------------------------------------------- */
+
 @media (max-width: 768px) {
   .container {
     padding: 0 20px;
   }
-  
-  section {
-    padding: 40px 20px;
-  }
-  
-  .section-title {
-    font-size: 2rem;
-  }
 
-  .section-subtitle {
-    font-size: 1rem;
+  section {
+    padding: 40px 0;
   }
 
   .btn {
     padding: 14px 32px;
     font-size: 14px;
+  }
+
+  .card {
+    padding: 28px;
   }
 }
 
@@ -181,81 +217,12 @@ section {
   .container {
     padding: 0 16px;
   }
-  
+
   section {
-    padding: 35px 16px;
-  }
-  
-  .section-title {
-    font-size: 1.75rem;
+    padding: 35px 0;
   }
 
   .card {
     padding: 24px;
   }
-}
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  /* your colors - unchanged */
-  --primary-green: #1BAA5A;
-  --deep-green: #0E5A32;
-  --white: #FFFFFF;
-  --light-green: #E9F0EB;
-  --text-dark: #2C3E50;
-  --text-grey: #5A6C7D;
-  --text-light: #8B9AAB;
-  --border-light: #E0E8ED;
-  
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --shadow-hover: 0 12px 40px rgba(27, 170, 90, 0.15);
-  
-  --gradient-green: linear-gradient(135deg, var(--primary-green), var(--deep-green));
-  --gradient-light: linear-gradient(180deg, var(--white) 0%, var(--light-green) 100%);
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.6;
-  color: var(--text-dark);
-  background-color: var(--white);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Main layout wrapper - USE THIS IN COMPONENTS */
-.container {
-  width: 100%;
-  max-width: 1400px;           /* or 1280px / 1200px as you prefer */
-  margin: 0 auto;
-  padding: 0 20px;             /* safe side padding on mobile */
-}
-
-/* Full-bleed sections (for hero, global reach, etc.) */
-.full-bleed {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-
-/* Alternative full-bleed (simpler & safer) */
-.section-full {
-  width: 100%;
-  padding-left: max(20px, env(safe-area-inset-left));
-  padding-right: max(20px, env(safe-area-inset-right));
 }
