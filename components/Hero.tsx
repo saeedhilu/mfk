@@ -38,7 +38,7 @@ export default function Hero() {
       {/* Gradient Overlay */}
       <motion.div
         className={styles.gradientOverlay}
-        style={{ y, opacity } as React.CSSProperties}
+        style={{ y, opacity }}
       />
 
       <div className={styles.content}>

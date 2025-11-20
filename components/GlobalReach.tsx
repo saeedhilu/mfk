@@ -151,7 +151,7 @@ export default function GlobalReach() {
 
   useEffect(() => {
     if (isInView && !counted) setCounted(true)
-  }, [isInView])
+  }, [isInView, counted])
 
   return (
     <section
