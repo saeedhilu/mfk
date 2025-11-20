@@ -15,10 +15,36 @@ export default function About() {
   }, [isInView, counted])
 
   const features = [
-    { icon: '🌍', title: 'Global Network', description: 'Connected to markets worldwide' },
-    { icon: '⚡', title: 'Fast Delivery', description: 'Optimized routes and schedules' },
-    { icon: '✅', title: 'Quality Assured', description: 'Rigorous quality checks' },
-    { icon: '🤝', title: 'Trusted Partner', description: 'Years of reliable service' },
+    { 
+      icon: '🌍', 
+      title: 'Global Network', 
+      description: 'Connected to markets worldwide with strategic partnerships across 120+ countries. Our extensive network ensures reliable access to international markets and seamless logistics coordination.' 
+    },
+    { 
+      icon: '⚡', 
+      title: 'Fast Delivery', 
+      description: 'Optimized routes and schedules that minimize transit times. We leverage advanced logistics technology and strategic partnerships to ensure your produce reaches markets quickly and efficiently.' 
+    },
+    { 
+      icon: '✅', 
+      title: 'Quality Assured', 
+      description: 'Rigorous quality checks at every stage of the supply chain. Our certified quality control team ensures your produce meets the highest international standards and customer expectations.' 
+    },
+    { 
+      icon: '🤝', 
+      title: 'Trusted Partner', 
+      description: 'Years of reliable service with a proven track record. We have built long-term relationships with producers and buyers worldwide, earning trust through consistent delivery and exceptional service.' 
+    },
+    { 
+      icon: '📊', 
+      title: 'Data-Driven', 
+      description: 'Real-time tracking and analytics for complete supply chain visibility. Our advanced tracking systems provide you with detailed insights into shipment status, temperature conditions, and delivery timelines.' 
+    },
+    { 
+      icon: '🛡️', 
+      title: 'Risk Management', 
+      description: 'Comprehensive insurance and risk mitigation strategies. We protect your shipments with appropriate coverage and implement proactive measures to minimize risks throughout the export process.' 
+    },
   ]
 
   return (
@@ -26,7 +52,7 @@ export default function About() {
       id="about"
       ref={ref}
       style={{
-        padding: '100px 20px',
+        padding: 'clamp(60px, 8vh, 80px) 20px',
         position: 'relative',
         zIndex: 1,
         background: 'var(--white)',

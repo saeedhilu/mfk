@@ -31,7 +31,7 @@ export default function Contact() {
       id="contact"
       ref={ref}
       style={{
-        padding: '100px 20px',
+        padding: 'clamp(60px, 8vh, 80px) 20px',
         position: 'relative',
         zIndex: 1,
         background: 'var(--white)',

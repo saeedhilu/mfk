@@ -24,7 +24,7 @@ export default function Hero() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 'clamp(100px, 15vh, 140px) clamp(16px, 4vw, 20px) clamp(60px, 10vh, 100px)',
+        padding: 'clamp(80px, 10vh, 100px) clamp(16px, 4vw, 20px) clamp(40px, 6vh, 60px)',
         position: 'relative',
         zIndex: 1,
         overflow: 'hidden',
@@ -69,7 +69,7 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           style={{
             textAlign: 'center',
-            maxWidth: '900px',
+            // maxWidth: '900px',
             margin: '0 auto',
           }}
         >
@@ -126,7 +126,9 @@ export default function Hero() {
             }}
           >
             Premium logistics solutions for fruits and vegetables. 
-            Connecting farms to global markets with excellence and reliability.
+            Connecting farms to global markets with excellence and reliability. 
+            We specialize in temperature-controlled transportation, quality assurance, 
+            and seamless international trade documentation.
           </motion.p>
 
           <motion.div
@@ -149,16 +151,72 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          {/* Stats Row */}
+          {/* Key Features Grid */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             style={{
               display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: 'clamp(20px, 3vw, 28px)',
+              marginTop: 'clamp(40px, 6vh, 60px)',
+              marginBottom: 'clamp(30px, 5vh, 50px)',
+            }}
+          >
+            {[
+              { icon: '🌡️', title: 'Temperature Control', description: 'Advanced cold chain technology' },
+              { icon: '📊', title: 'Real-time Tracking', description: 'Monitor your shipments 24/7' },
+              { icon: '✅', title: 'Quality Certified', description: 'International standards compliance' },
+              { icon: '⚡', title: 'Fast Delivery', description: 'Optimized global routes' },
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                whileHover={{ y: -5, scale: 1.05 }}
+                style={{
+                  textAlign: 'center',
+                  padding: 'clamp(20px, 3vw, 28px)',
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(27, 170, 90, 0.1)',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+                }}
+              >
+                <div style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', marginBottom: 'clamp(8px, 1.5vw, 12px)' }}>
+                  {feature.icon}
+                </div>
+                <h4
+                  style={{
+                    fontFamily: 'Poppins, sans-serif',
+                    fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+                    fontWeight: 600,
+                    color: 'var(--deep-green)',
+                    marginBottom: '8px',
+                  }}
+                >
+                  {feature.title}
+                </h4>
+                <p style={{ color: 'var(--text-grey)', fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)', margin: 0 }}>
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Stats Row */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+            style={{
+              display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
               gap: 'clamp(24px, 4vw, 40px)',
-              marginTop: 'clamp(40px, 8vh, 80px)',
+              marginTop: 'clamp(20px, 4vh, 40px)',
               padding: 'clamp(24px, 4vw, 40px)',
               background: 'rgba(255, 255, 255, 0.8)',
               backdropFilter: 'blur(20px)',
@@ -176,7 +234,7 @@ export default function Hero() {
                 key={stat.label}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
                 style={{ textAlign: 'center' }}
               >
                 <div style={{ fontSize: 'clamp(2rem, 4vw, 2.5rem)', marginBottom: 'clamp(8px, 1.5vw, 12px)' }}>{stat.icon}</div>

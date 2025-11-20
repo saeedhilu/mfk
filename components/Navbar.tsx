@@ -58,12 +58,14 @@ export default function Navbar() {
       }}
     >
       <div
-        className="container"
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: 'clamp(0.8rem, 2vw, 1.2rem) clamp(16px, 4vw, 20px)',
+          padding: 'clamp(0.8rem, 2vw, 1.2rem) clamp(20px, 5vw, 40px)',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          width: '100%',
         }}
       >
         <motion.div
@@ -146,21 +148,31 @@ export default function Navbar() {
               rotate: isMobileMenuOpen ? 45 : 0,
               y: isMobileMenuOpen ? 8 : 0,
             }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeInOut',
+            }}
             style={{
               width: '25px',
               height: '3px',
               background: 'var(--text-dark)',
-              transition: 'all 0.3s ease',
               borderRadius: '2px',
+              transformOrigin: 'center',
             }}
           />
           <motion.span
-            animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
+            animate={{ 
+              opacity: isMobileMenuOpen ? 0 : 1,
+              scale: isMobileMenuOpen ? 0 : 1,
+            }}
+            transition={{
+              duration: 0.2,
+              ease: 'easeInOut',
+            }}
             style={{
               width: '25px',
               height: '3px',
               background: 'var(--text-dark)',
-              transition: 'all 0.3s ease',
               borderRadius: '2px',
             }}
           />
@@ -169,12 +181,16 @@ export default function Navbar() {
               rotate: isMobileMenuOpen ? -45 : 0,
               y: isMobileMenuOpen ? -8 : 0,
             }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeInOut',
+            }}
             style={{
               width: '25px',
               height: '3px',
               background: 'var(--text-dark)',
-              transition: 'all 0.3s ease',
               borderRadius: '2px',
+              transformOrigin: 'center',
             }}
           />
         </motion.button>
@@ -217,11 +233,25 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ 
+                    delay: index * 0.05,
+                    duration: 0.3,
+                    ease: 'easeOut',
+                  }}
                 >
-                  <a
+                  <motion.a
                     href={link.href}
-                    onClick={handleLinkClick}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleLinkClick()
+                      // Smooth scroll to section
+                      const targetId = link.href.substring(1)
+                      const targetElement = document.getElementById(targetId)
+                      if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }
+                    }}
+                    whileTap={{ scale: 0.95 }}
                     style={{
                       display: 'block',
                       textDecoration: 'none',
@@ -229,8 +259,9 @@ export default function Navbar() {
                       fontWeight: 500,
                       fontSize: '1rem',
                       padding: '14px clamp(20px, 5vw, 40px)',
-                      transition: 'all 0.3s ease',
                       borderBottom: '1px solid var(--border-light)',
+                      position: 'relative',
+                      overflow: 'hidden',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'var(--light-green)'
@@ -241,8 +272,15 @@ export default function Navbar() {
                       e.currentTarget.style.color = 'var(--text-dark)'
                     }}
                   >
-                    {link.label}
-                  </a>
+                    <motion.span
+                      initial={{ x: -10, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: index * 0.05 + 0.1 }}
+                      style={{ display: 'block' }}
+                    >
+                      {link.label}
+                    </motion.span>
+                  </motion.a>
                 </motion.li>
               ))}
             </ul>

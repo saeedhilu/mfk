@@ -101,7 +101,7 @@ export default function CustomerReviews() {
       id="reviews"
       ref={ref}
       style={{
-        padding: '120px 20px',
+        padding: 'clamp(60px, 8vh, 80px) 20px',
         position: 'relative',
         zIndex: 1,
         background: 'var(--white)',

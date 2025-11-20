@@ -4,29 +4,41 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
 const services = [
-  // { 
-  //   icon: '🚚', 
-  //   title: 'Cold Chain Logistics', 
-  //   description: 'Temperature-controlled transportation ensuring freshness from farm to destination. Our advanced cold chain system maintains optimal conditions throughout the journey.',
-  //   features: ['Temperature Monitoring', 'Real-time Tracking', 'Quality Assurance']
-  // },
+  { 
+    icon: '🚚', 
+    title: 'Cold Chain Logistics', 
+    description: 'Temperature-controlled transportation ensuring freshness from farm to destination. Our advanced cold chain system maintains optimal conditions throughout the journey, preserving quality and extending shelf life. We utilize state-of-the-art refrigeration technology and real-time monitoring to guarantee your produce arrives in perfect condition.',
+    features: ['Temperature Monitoring', 'Real-time Tracking', 'Quality Assurance', 'Extended Shelf Life']
+  },
   { 
     icon: '📦', 
     title: 'Packaging Solutions', 
-    description: 'Custom packaging designed to protect your produce during transit. We use eco-friendly materials and innovative designs for maximum protection.',
-    features: ['Custom Design', 'Eco-friendly Materials', 'Damage Protection']
+    description: 'Custom packaging designed to protect your produce during transit. We use eco-friendly materials and innovative designs for maximum protection. Our packaging solutions are tailored to each product type, ensuring minimal waste, optimal ventilation, and maximum freshness preservation. We comply with international packaging standards and regulations.',
+    features: ['Custom Design', 'Eco-friendly Materials', 'Damage Protection', 'International Compliance']
   },
   { 
     icon: '🌍', 
     title: 'Global Distribution', 
-    description: 'Worldwide shipping network connecting producers to international markets. Our extensive network ensures timely delivery to over 120 countries.',
-    features: ['120+ Countries', 'Fast Shipping', 'Global Network']
+    description: 'Worldwide shipping network connecting producers to international markets. Our extensive network ensures timely delivery to over 120 countries. We have established partnerships with major logistics providers, customs brokers, and port authorities worldwide. Our streamlined processes reduce transit times and minimize delays.',
+    features: ['120+ Countries', 'Fast Shipping', 'Global Network', 'Streamlined Processes']
   },
   { 
     icon: '✅', 
     title: 'Quality Assurance', 
-    description: 'Rigorous quality checks at every stage of the supply chain. We maintain the highest standards to ensure your produce meets international quality requirements.',
-    features: ['Multi-stage Inspection', 'Certification', 'Quality Reports']
+    description: 'Rigorous quality checks at every stage of the supply chain. We maintain the highest standards to ensure your produce meets international quality requirements. Our certified quality control team conducts inspections at origin, during transit, and at destination. We provide detailed quality reports and certifications for all shipments.',
+    features: ['Multi-stage Inspection', 'Certification', 'Quality Reports', 'Certified Team']
+  },
+  { 
+    icon: '📋', 
+    title: 'Documentation & Compliance', 
+    description: 'Complete documentation handling for international trade. We manage all export/import documentation, customs clearance, phytosanitary certificates, and compliance requirements. Our experienced team ensures all paperwork is accurate, timely, and meets destination country regulations, preventing delays and penalties.',
+    features: ['Customs Clearance', 'Phytosanitary Certificates', 'Compliance Management', 'Expert Team']
+  },
+  { 
+    icon: '💼', 
+    title: 'Trade Consulting', 
+    description: 'Expert guidance on international trade regulations, market access, and export strategies. Our consultants help you navigate complex trade requirements, identify new markets, and optimize your export operations. We provide market research, regulatory guidance, and strategic planning to grow your export business.',
+    features: ['Market Research', 'Regulatory Guidance', 'Strategic Planning', 'Business Growth']
   },
 ]
 
@@ -39,7 +51,7 @@ export default function Services() {
       id="services"
       ref={ref}
       style={{
-        padding: '120px 20px',
+        padding: 'clamp(60px, 8vh, 80px) 20px',
         position: 'relative',
         zIndex: 1,
         background: 'var(--white)',
@@ -210,10 +222,17 @@ export default function Services() {
           }
         }
         
-        /* Desktop: 4 columns in one row */
+        /* Desktop: 3 columns in one row */
         @media (min-width: 1025px) {
           .services-grid {
-            gridTemplateColumns: repeat(4, 1fr) !important;
+            gridTemplateColumns: repeat(3, 1fr) !important;
+          }
+        }
+        
+        /* Large Desktop: 3 columns (keep same for better readability) */
+        @media (min-width: 1400px) {
+          .services-grid {
+            gridTemplateColumns: repeat(3, 1fr) !important;
           }
         }
       `}</style>
