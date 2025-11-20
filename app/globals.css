@@ -194,3 +194,68 @@ section {
     padding: 24px;
   }
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* your colors - unchanged */
+  --primary-green: #1BAA5A;
+  --deep-green: #0E5A32;
+  --white: #FFFFFF;
+  --light-green: #E9F0EB;
+  --text-dark: #2C3E50;
+  --text-grey: #5A6C7D;
+  --text-light: #8B9AAB;
+  --border-light: #E0E8ED;
+  
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 12px 40px rgba(27, 170, 90, 0.15);
+  
+  --gradient-green: linear-gradient(135deg, var(--primary-green), var(--deep-green));
+  --gradient-light: linear-gradient(180deg, var(--white) 0%, var(--light-green) 100%);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Main layout wrapper - USE THIS IN COMPONENTS */
+.container {
+  width: 100%;
+  max-width: 1400px;           /* or 1280px / 1200px as you prefer */
+  margin: 0 auto;
+  padding: 0 20px;             /* safe side padding on mobile */
+}
+
+/* Full-bleed sections (for hero, global reach, etc.) */
+.full-bleed {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Alternative full-bleed (simpler & safer) */
+.section-full {
+  width: 100%;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
