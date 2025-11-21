@@ -166,18 +166,27 @@
 /* ───────── Grid Layout ───────── */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Desktop/Laptop */
   gap: clamp(24px, 4vw, 32px);
   margin-top: clamp(40px, 6vw, 60px);
   position: relative;
 }
 
-@media (max-width: 768px) {
+/* Tablet: 2 items per row */
+@media (max-width: 1024px) {
   .grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-5);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Mobile: 1 item per row */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 
 /* ───────── Step Card ───────── */
 .stepCard {
@@ -244,4 +253,5 @@
   flex: 1;
   margin: 0;
 }
+
 
