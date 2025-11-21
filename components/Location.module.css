@@ -232,21 +232,20 @@
 /* strong CTA */
 .mapButton {
   display: inline-block;
-  margin-top: 12px;
   padding: 10px 20px;
   background: rgb(var(--color-green-500));
-  color: var(--color-white);
-  text-decoration: none;
+  color: white;
   border-radius: 10px;
-  font-weight: 700;
+  font-weight: 600;
   box-shadow: var(--shadow-md);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  text-decoration: none;
+  transition: 0.2s ease;
 }
-.mapButton:hover,
-.mapButton:focus {
+
+.mapButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(12, 40, 20, 0.09);
 }
+
 
 /* hairline divider — crisp 1px with soft gradient */
 .divider {
@@ -330,3 +329,4 @@
   .title { font-size: 1.6rem; }
   .card { padding: 16px; border-radius: 12px; }
 }
+
