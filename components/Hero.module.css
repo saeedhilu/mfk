@@ -90,10 +90,13 @@
 
 .featuresGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: clamp(20px, 3vw, 28px);
+  gap: clamp(20px, 3vw, 32px);
+  width: 100%;
   margin-top: clamp(40px, 6vh, 60px);
   margin-bottom: clamp(30px, 5vh, 50px);
+
+  /* Mobile-first: 1 column */
+  grid-template-columns: 1fr;
 }
 
 .featureCard {
@@ -194,7 +197,7 @@
 }
 
 /* Tablet: 2 columns */
-@media (min-width: 640px) {
+@media (min-width: 600px) {
   .featuresGrid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -203,6 +206,6 @@
 /* Desktop: 3 columns */
 @media (min-width: 1024px) {
   .featuresGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
