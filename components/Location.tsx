@@ -115,11 +115,10 @@
 //     </Section>
 //   )
 // }
-
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Container from "./ui/Container";
 import Section from "./ui/Section";
 import styles from "./Location.module.css";
@@ -130,21 +129,33 @@ const location = {
   mapUrl:
     "https://www.google.com/maps/place/@11.1294495,75.9727543,19.3z/data=!4m6!1m5!3m4!2zMTHCsDA3JzQ1LjkiTiA3NcKwNTgnMjIuOSJF!8m2!3d11.1294071!4d75.9730379?entry=ttu",
   embedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.808812049287!2d75.9704626760117!3d11.129407088405757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba659e3aee76aa3%3A0xdbfacea5b28bf3!2s11%C2%B007'45.9%22N%2075%C2%B058'22.9%22E!5e0!3m2!1sen!2sin!4v1731933392001!5m2!1sen!2sin",
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.808812049287!2d75.9704626760117!3d11.129407088405757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba659e3aee76aa3%3A0xdbfacea5b28bf3!2s11%C2%B007'45.9%22N%2075%C2%B058'22.9%22E!5e0!3m2!1sen!2sin!4v1731933392001!5m2!1sen!2sin"
 };
 
 export default function Location() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.25 });
+
+  // Fade in iframe when fully loaded
+  useEffect(() => {
+    if (!iframeRef.current) return;
+    const frame = iframeRef.current;
+
+    frame.onload = () => {
+      frame.parentElement?.classList.add(styles.loaded);
+    };
+  }, []);
 
   return (
     <Section id="location" ref={ref} background="secondary" className={styles.section}>
       <Container>
+        {/* SECTION HEADER */}
         <motion.div
           className={styles.sectionHeader}
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2 className={styles.sectionTitle}>Our Location</h2>
           <p className={styles.sectionSubtitle}>
@@ -152,13 +163,14 @@ export default function Location() {
           </p>
         </motion.div>
 
+        {/* MAIN CARD */}
         <motion.div
           className={styles.card}
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* LEFT: Address */}
+          {/* ADDRESS */}
           <div className={styles.info}>
             <h3 className={styles.locationName}>{location.name}</h3>
             <p className={styles.locationAddress}>{location.address}</p>
@@ -175,17 +187,17 @@ export default function Location() {
             </motion.a>
           </div>
 
-          {/* MIDDLE GRADIENT */}
+          {/* DIVIDER */}
           <div className={styles.divider} />
 
-          {/* RIGHT: Embedded Map */}
+          {/* MAP */}
           <div className={styles.mapWrapper}>
             <iframe
+              ref={iframeRef}
               src={location.embedUrl}
-              allowFullScreen
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="MFK Exports Location - Kerala"
+              allowFullScreen
+              title="Location Map"
             />
           </div>
         </motion.div>
