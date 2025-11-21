@@ -166,7 +166,7 @@
 /* ───────── Grid Layout ───────── */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
   gap: clamp(24px, 4vw, 32px);
   margin-top: clamp(40px, 6vw, 60px);
   position: relative;
@@ -244,3 +244,4 @@
   flex: 1;
   margin: 0;
 }
+
