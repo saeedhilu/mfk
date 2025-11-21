@@ -29,11 +29,13 @@ export default function Hero() {
   ]
 
   return (
-    <section id="home" ref={ref} className={styles.hero}>
-      {/* Animated World Map Background */}
-      <div className={styles.mapBackground}>
+    <>
+    <div className={styles.mapBackground}>
         <AnimatedWorldMap />
       </div>
+      <section id="home" ref={ref} className={styles.hero}>
+      {/* Animated World Map Background */}
+      
 
       {/* Gradient Overlay */}
       <motion.div
@@ -146,5 +148,7 @@ export default function Hero() {
         </motion.div>
       </div>
     </section>
+    </>
+   
   )
 }

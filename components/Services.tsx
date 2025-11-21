@@ -189,29 +189,7 @@ export default function Services() {
           </div>
         </div>
 
-        <div className={styles.flight}>
-          <div className={styles.path}>
-            <div className={styles.dashedLine} />
-            <motion.span
-              className={styles.plane}
-              animate={{
-                x: planePath.map((point) => point.x),
-                y: planePath.map((point) => point.y),
-              }}
-              transition={{ duration: 12, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
-            >
-              ✈️
-            </motion.span>
-          </div>
-          <div className={styles.stops}>
-            {routeStops.map((stop, index) => (
-              <div key={stop} className={styles.stop}>
-                <span className={styles.stopNumber}>{index + 1}</span>
-                <p className={styles.stopLabel}>{stop}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+            
       </Container>
     </Section>
   )

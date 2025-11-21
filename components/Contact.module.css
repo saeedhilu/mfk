@@ -1,0 +1,121 @@
+.section {
+  padding-block: var(--section-padding);
+  position: relative;
+  background-color: var(--color-bg-white);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: clamp(32px, 5vw, 60px);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
+  margin-bottom: var(--space-4);
+  color: var(--color-green-700);
+}
+
+.sectionSubtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin-inline: auto;
+  line-height: var(--line-height-relaxed);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(32px, 6vw, 60px);
+  margin-top: clamp(40px, 6vw, 60px);
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contactInfo h3 {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-6);
+  color: var(--color-green-700);
+}
+
+.contactItem {
+  display: flex;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+  align-items: flex-start;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-green-500), var(--color-green-700));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+}
+
+.details h4 {
+  font-family: var(--font-family-heading);
+  margin-bottom: var(--space-1);
+  color: var(--color-green-700);
+  font-size: var(--font-size-lg);
+}
+
+.details p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  margin: 0;
+}
+
+.form {
+  background: var(--color-bg-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.inputGroup {
+  margin-bottom: var(--space-5);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  background: var(--color-bg-white);
+  color: var(--color-text-primary);
+  transition: all var(--transition-base);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-green-500);
+  box-shadow: 0 0 0 3px rgba(27, 170, 90, 0.1);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
+
+.submitBtn {
+  width: 100%;
+}
+

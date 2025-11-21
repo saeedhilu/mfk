@@ -1,0 +1,122 @@
+.section {
+  padding-block: var(--section-padding);
+  position: relative;
+  background-color: var(--color-bg-secondary);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: clamp(32px, 5vw, 60px);
+}
+
+.eyebrow {
+  display: inline-flex;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(27, 170, 90, 0.2);
+  background: rgba(27, 170, 90, 0.1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-green-500);
+  margin-bottom: var(--space-5);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
+  margin-bottom: var(--space-4);
+  color: var(--color-green-700);
+}
+
+.sectionSubtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin-inline: auto;
+  line-height: var(--line-height-relaxed);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(24px, 4vw, 32px);
+  margin-top: clamp(40px, 6vw, 60px);
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+.stepCard {
+  padding: clamp(28px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  background: var(--color-bg-white);
+  position: relative;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+}
+
+.stepCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.stepNumber {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  font-family: var(--font-family-heading);
+  font-size: clamp(3rem, 6vw, 4rem);
+  font-weight: var(--font-weight-extrabold);
+  color: rgba(27, 170, 90, 0.1);
+  line-height: 1;
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-green-500), var(--color-green-700));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: var(--space-5);
+  box-shadow: 0 8px 24px rgba(27, 170, 90, 0.25);
+  position: relative;
+  z-index: 1;
+  transition: all var(--transition-base);
+}
+
+.icon:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-green-700);
+  margin-bottom: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  font-size: var(--font-size-base);
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
