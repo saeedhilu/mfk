@@ -207,7 +207,8 @@ export default function Location(): JSX.Element {
             <p className={styles.locationAddress}>{LOCATION.address}</p>
 
             <a
-              className={styles.mapButton}
+              {/* className={styles.mapButton} */}
+             className="btn btn-primary"
               href={LOCATION.mapUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -215,6 +216,8 @@ export default function Location(): JSX.Element {
             >
               View on Google Maps
             </a>
+
+            
           </div>
 
           {/* thin hairline divider */}
@@ -243,3 +246,4 @@ export default function Location(): JSX.Element {
     </Section>
   );
 }
+
