@@ -113,17 +113,7 @@ export default function CustomerReviews() {
         </motion.div>
 
         {/* Overall Rating Display */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className={styles.ratingDisplay}
-        >
-          <div className={styles.ratingNumber}>4.9</div>
-          <div className={styles.ratingStars}>⭐⭐⭐⭐⭐</div>
-          <p className={styles.ratingText}>Based on 1,000+ verified reviews</p>
-        </motion.div>
-
+       
         {/* Swiper Carousel */}
         <div className={styles.carouselWrapper}>
           {/* Gradient Overlays */}
@@ -211,3 +201,4 @@ export default function CustomerReviews() {
     </Section>
   )
 }
+
