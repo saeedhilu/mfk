@@ -90,12 +90,13 @@
 
 .featuresGrid {
   display: grid;
-  gap: clamp(20px, 3vw, 32px);
   width: 100%;
+  gap: clamp(20px, 2vw, 28px);
+
   margin-top: clamp(40px, 6vh, 60px);
   margin-bottom: clamp(30px, 5vh, 50px);
 
-  /* Mobile-first: 1 column */
+  /* Mobile-first */
   grid-template-columns: 1fr;
 }
 
@@ -190,21 +191,29 @@
   } */
 }
 
-@media (min-width: 360px) {
+/* 2 columns on mid-size mobiles */
+@media (min-width: 480px) {
   .featuresGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Tablet: 2 columns */
-@media (min-width: 600px) {
+/* 2 columns on tablets */
+@media (min-width: 640px) {
   .featuresGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Desktop: 3 columns */
-@media (min-width: 1024px) {
+/* Large tablets / small laptops — 3 columns */
+@media (min-width: 900px) {
+  .featuresGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Desktop — 4 columns exactly */
+@media (min-width: 1200px) {
   .featuresGrid {
     grid-template-columns: repeat(4, 1fr);
   }
