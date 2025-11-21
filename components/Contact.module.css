@@ -10,10 +10,11 @@
 }
 
 .sectionTitle {
-  font-size: var(--font-size-3xl);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: var(--font-weight-extrabold);
   margin-bottom: var(--space-4);
   color: var(--color-green-700);
+  line-height: 1.15;
 }
 
 .sectionSubtitle {
@@ -119,3 +120,35 @@
   width: 100%;
 }
 
+/* Update the .icon class in Contact.module.css */
+
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-green-500), var(--color-green-700));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+  color: white; /* Add this for white icons */
+  transition: all var(--transition-base);
+}
+
+.icon:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.contactLink {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-base);
+  transition: all var(--transition-base);
+  display: inline-block;
+}
+
+.contactLink:hover {
+  color: var(--color-green-500);
+  text-decoration: underline;
+}

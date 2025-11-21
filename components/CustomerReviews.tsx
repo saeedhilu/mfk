@@ -146,6 +146,7 @@ export default function CustomerReviews() {
             grabCursor={true}
             centeredSlides={false}
             breakpoints={carouselBreakpoints}
+            rewind={false}
             style={{ padding: 0, overflow: 'visible' }}
           >
             {reviews.map((review) => (

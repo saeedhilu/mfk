@@ -23,10 +23,11 @@
 }
 
 .sectionTitle {
-  font-size: var(--font-size-3xl);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: var(--font-weight-extrabold);
   margin-bottom: var(--space-4);
   color: var(--color-green-700);
+  line-height: 1.15;
 }
 
 .sectionSubtitle {
@@ -158,11 +159,12 @@
 
 .customerDetails h4 {
   font-family: var(--font-family-heading);
-  font-size: var(--font-size-lg);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: var(--font-weight-semibold);
   color: var(--color-green-700);
   margin-bottom: var(--space-1);
 }
+
 
 .company {
   color: var(--color-text-secondary);
