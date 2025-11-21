@@ -206,11 +206,7 @@
 }
 
 /* Large tablets / small laptops — 3 columns */
-@media (min-width: 900px) {
-  .featuresGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+
 
 /* Desktop — 4 columns exactly */
 @media (min-width: 1200px) {
@@ -218,3 +214,4 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
